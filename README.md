@@ -17,7 +17,7 @@ APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_URL=http://localhost:8989
+APP_URL=http://localhost:8100
 
 LOG_CHANNEL=stack
 LOG_DEPRECATIONS_CHANNEL=null
@@ -27,7 +27,7 @@ LOG_LEVEL=debug
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=sistema_gestao
+DB_DATABASE=sistema_controle_milhas
 DB_USERNAME=root
 DB_PASSWORD=root
 
