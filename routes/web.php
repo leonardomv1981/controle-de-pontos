@@ -20,4 +20,5 @@ Route::get('/', function () {
 
 Route::prefix('produtos-milhas')->group(function () {
     Route::get('/', [ProdutosmilhasController::class, 'index'])->name('produto-milhas.index');
+    Route::delete('/delete', [ProdutosmilhasController::class, 'delete'])->name('produto-milhas.delete');
 });

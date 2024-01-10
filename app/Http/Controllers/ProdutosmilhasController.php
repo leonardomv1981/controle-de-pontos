@@ -14,14 +14,18 @@ class ProdutosmilhasController extends Controller
     }
 
     public function index (Request $request) {
-        $pesquisar = $request->pesquisar;
-        $findProduto = $this->produtoMilhas->getProdutosPesquisarIndex(search: $pesquisar);
+        $findProduto = $this->produtoMilhas->getProdutosPesquisarIndex(search: $request->pesquisar ?? '');
         return view('pages.produto-milhas.paginacao', compact('findProduto'));
     }
 
-    public function listarPorPrograma ($data) {
-        dd($data);
-        $findProduto = Produtomilhas::where('nome_programa', '=', 'AA')->get();
-        dd($findProduto);
+    public function delete (Request $request)
+    {
+        
     }
+
+    // public function listarPorPrograma ($data) {
+    //     dd($data);
+    //     $findProduto = Produtomilhas::where('nome_programa', '=', 'AA')->get();
+    //     dd($findProduto);
+    // }
 }
