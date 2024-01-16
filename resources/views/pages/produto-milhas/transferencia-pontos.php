@@ -20,7 +20,7 @@
         <option name="data[nome_programa_destino]" class="form-control" id="nome_programa_destino" value="ESFERA">ESFERA</option>
         <option  name="data[nome_programa_destino]" class="form-control" id="nome_programa_destino" value="SMILES">SMILES</option>
     </select>
-</div>
+</div> 
 <div class="col-md-4">
     <label for="pontos_operacao" class="form-label">Pontuação a creditar</label>
     <input type="number" name="data[produtomilhas][operacao]" class="form-control" id="pontos_operacao">
