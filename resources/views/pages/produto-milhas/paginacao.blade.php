@@ -1,6 +1,7 @@
 @extends('index')
 
 @section('content')
+    
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Programas de pontos</h1>
     </div>
@@ -15,7 +16,7 @@
                 <option value="SMILES">SMILES</option>
             </select>
             <button> Pesquisar </button>
-            <a type="button" href="" class="btn btn-success float-end btn-sm">Incluir movimento</a>
+            <a type="button" href="{{ route('produtoMilha.cadastrar') }}" class="btn btn-success float-end btn-sm">Incluir movimento</a>
         </form>
     </div>
     
@@ -29,6 +30,7 @@
                     <tr>
                         <th></th>
                         <th>Programa</th>
+                        <th>Data da operação</th>
                         <th>Operação</th>
                         <th>Pontos da op</th>
                         <th>Valor da op</th>
@@ -44,6 +46,7 @@
                         <tr>
                             <td>{{ $produto->id }}</td>
                             <td>{{ $produto->nome_programa }}</td>
+                            <td>{{ $produto->data_operacao }}</td>
                             <td>{{ $produto->operacao }}</td>
                             <td>{{ $produto->pontos_operacao }}</td>
                             <td>{{  'R$' . ' ' . number_format($produto->valor_operacao, 2, ',', '.') }}</td>
@@ -55,7 +58,8 @@
                                 <a href="" class="btn btn-light btn-sm">
                                     editar
                                 </a>
-                                <a href="{{ route('produto-milhas.delete') }}" class="btn btn-danger btn-sm">
+                                <meta name="csrf_token" content="{{ csrf_token() }}">
+                                <a onclick="deleteRegistroPontos('{{ route('produto-milhas.delete') }}', '{{ $produto->id }}' )" class="btn btn-danger btn-sm">
                                     excluir
                                 </a>
                             </td>
