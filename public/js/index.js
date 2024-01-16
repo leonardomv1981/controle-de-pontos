@@ -3,7 +3,6 @@ $(document).ready(function () {
     $(document).on('change', '.form-check-input', function(){
         data = $(this).attr('data-param');
         token = $('meta[name="csrf_token"]').attr('content');
-        console.log(token);
         $.ajax({
             url: "action",
             type: "POST",
@@ -19,12 +18,11 @@ $(document).ready(function () {
                 })
             },
         }).done(function (result) {
-            console.log(result)
+            $('#divMovimentacaoPontos').html(result);
             $.unblockUI();
         }).fail(function(result){
-            console.log(result)
+            $('#divMovimentacaoPontos').html(result);
             $.unblockUI();
-            alert('não foi possível buscar os dados');
         })
     });
     

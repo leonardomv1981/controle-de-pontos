@@ -38,7 +38,23 @@ class ProdutosmilhasController extends Controller
     public function action (Request $request)
     {
         $data = json_decode($_POST['data']);
-        dd($data);
+        $acao = $data->acao;
+
+        switch ($acao){
+            case 'creditoPontos':
+                return view('pages.produto-milhas.credito-pontos');
+                break;
+            case 'debitoPontos':
+                return view('pages.produto-milhas.debito-pontos');
+                break;
+            case 'transferenciaPontos':
+                return view('pages.produto-milhas.transferencia-pontos');
+                break;
+            default:
+                echo "não foi possível realizar a ação";
+                break;
+        };
+
     }
 
     // public function listarPorPrograma ($data) {

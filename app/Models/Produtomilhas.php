@@ -21,6 +21,7 @@ class Produtomilhas extends Model
         'cpm_operacao',
         'cpm_total',
         'situacao',
+        'observacao',
     ];
 
     public function getProdutosPesquisarIndex(string $search = NULL) 
@@ -31,7 +32,6 @@ class Produtomilhas extends Model
                 $query->whereRaw('nome_programa = ? AND situacao != "EXCLUIDO"', $search);
                 // $query->orWhere('nome_programa', 'LIKE', "%{$search}%");
             } else {
-                echo "else";
                 $query->whereRaw('situacao != "EXCLUIDO"');
             };            
         })->get();
