@@ -16,7 +16,11 @@
 </div>
 <div class="col-md-4">
     <label for="valor_operacao" class="form-label">Valor gasto</label>
-    <input type="number" name="data[produtomilhas][valor_operacao]" class="form-control" id="valor_operacao">
+    <input type="number" name="data[produtomilhas][valor_operacao]" class="form-control" id="valor_operacao" step=".01">
+</div>
+<div class="col-md-4">
+    <label for="data_operacao" class="form-label">Data da operação</label>
+    <input type="date" name="data[produtomilhas][data_operacao]" class="form-control" id="data_operacao">
 </div>
 <div class="col-md-4">
     <label for="observacao" class="form-label">observação</label>
