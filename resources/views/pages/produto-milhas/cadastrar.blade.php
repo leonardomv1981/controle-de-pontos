@@ -6,7 +6,8 @@
         <h1 class="h2">Adicionar movimentação</h1>
     </div>
     <div>
-        <form class="row g-3">
+        <form class="row g-3" method="POST" action="{{ route('cadastrar.produtoMilha')}}">
+            @csrf
             <fieldset class="row mb-3">
                 <legend class="col-form-label col-sm-2 pt-0">Tipo de movimentação</legend>
                 <div class="col-sm-10">
@@ -22,7 +23,7 @@
                             Débito de pontos
                         </label>
                     </div>
-                    <div class="form-check disabled"> 
+                    <div class="form-check"> 
                         <input class="form-check-input" type="radio" name="acaoMovimentacao" data-param='{"acao": "transferenciaPontos"}'>
                         <label class="form-check-label" for="gridRadios3">
                             Transferência para outros programas
@@ -33,7 +34,7 @@
             <div class="row" id="divMovimentacaoPontos">
             </div>
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
         </form>
     </div>
