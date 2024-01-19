@@ -13,13 +13,13 @@
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi"><use xlink:href="#cart"/></svg>
-                    + transação
-                </a>
+                    <a class="nav-link d-flex align-items-center gap-2" href="{{ route('produto-milhas.index') }}">
+                        <svg class="bi"><use xlink:href="#graph-up"/></svg>
+                        Movimentações de pontos
+                    </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="{{ route('produto-milhas.index') }}">
+                <a class="nav-link d-flex align-items-center gap-2" href="{{ route('programas.index') }}">
                     <svg class="bi"><use xlink:href="#graph-up"/></svg>
                     Programas
                 </a>

@@ -28,8 +28,11 @@ class ProdutosmilhasController extends Controller
     public function cadastrarProdutoMilha (Request $request) 
     {
         if ($request->method() == "POST") {
+            $data = $request->data['produtomilhas'];
+            dd($data);
+            //tratamento dos dados para salvar no banco
             
-            return '';
+            // Produto::create();
         };
 
         return view('pages.produto-milhas.cadastrar');

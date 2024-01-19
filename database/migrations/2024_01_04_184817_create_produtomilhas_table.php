@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('produtomilhas', function (Blueprint $table) {
             $table->id();
             $table->string('nome_programa');
+            $table->integer('usuario');
+            $table->date('data_operacao');
             $table->enum('operacao', ['credito', 'debito']);
             $table->integer('pontos_operacao');
             $table->integer('saldo_anterior')->nullable;
@@ -21,6 +23,7 @@ return new class extends Migration
             $table->decimal('valor_operacao', 10,2);
             $table->decimal('cpm_operacao', 10,2);
             $table->decimal('cpm_total', 10,2);
+            $table->varchar('observacao')->nullable;
             $table->timestamps();
         });
 
