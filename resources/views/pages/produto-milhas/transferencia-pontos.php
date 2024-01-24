@@ -19,6 +19,10 @@
             <label for="pontos_operacao" class="form-label">Pontuação a transferir</label>
             <input type="number" name="data[produtomilhas][origem][pontos_operacao]" class="form-control" id="pontos_operacao">
         </div>
+        <div>
+            <label for="data_operacao" class="form-label">Data da operação</label>
+            <input type="date" name="data[produtomilhas][origem][data_operacao]" class="form-control" id="data_operacao">
+        </div>
     </div>
 </div>
 
