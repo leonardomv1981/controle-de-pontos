@@ -5,6 +5,8 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Adicionar movimentação</h1>
     </div>
+    
+
     <div>
         <form class="row g-3" method="POST" action="{{ route('cadastrar.produtoMilha')}}">
             @csrf
@@ -30,6 +32,14 @@
                         </label>
                     </div>
                 </div>
+                @if($errors->any())
+                    <div class="alert alert-warning">
+                        <span class="">
+                            <strong> Houve um erro </strong>
+                                {!! implode('', $errors->all('<div>:message</div>')) !!}
+                        </span>
+                    </div>
+                @endif
             </fieldset>
             <div class="row" id="divMovimentacaoPontos">
             </div>

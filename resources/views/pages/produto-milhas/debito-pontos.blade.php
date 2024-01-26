@@ -1,7 +1,7 @@
 <input type="hidden" name="data[produtomilhas][operacao]" value="debito">
 <div class="col-md-4">
     <label for="nome_programa" class="form-label">Programa</label>
-    <select  name="data[produtomilhas][nome_programa]" class="form-control" id="nome_programa" value="">
+    <select  name="data[produtomilhas][nome_programa]" class="form-control @error('nome_programa') é invalido @enderror" id="nome_programa" value="">
                 <option value="">SELECIONE</option>
                 <option name="data[nome_programa]" class="form-control" id="nome_programa" value="AA">AA</option>
                 <option name="data[nome_programa]" class="form-control" id="nome_programa"value="LATAM">LATAM</option>
