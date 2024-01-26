@@ -38,9 +38,11 @@ class ProdutosmilhasController extends Controller
                 $data['usuario'] = 12;
             }
 
+
             switch ($data['operacao']) 
             {
                  case 'credito':
+                    $data['valor_operacao'] = str_replace(',', '.', str_replace(array('.', 'R$'), "", $data['valor_operacao']));
                     $data['saldo_atual'] = $ultimoRegistro->saldo_atual + $data['pontos_operacao'];
                     $data['valor_acumulado'] = $ultimoRegistro->valor_acumulado + $data['valor_operacao'];
                     $data['cpm_operacao'] = $data['valor_operacao'] / (($data['pontos_operacao'] / 1000));

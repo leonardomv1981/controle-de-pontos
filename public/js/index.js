@@ -1,4 +1,9 @@
+
+
 $(document).ready(function () {
+
+    $('#valor_operacao').inputmask('R$ 99.999,99', { numericInput: true });
+    // $('#valor_operacao').mask();
 
     $(document).on('change', '.form-check-input', function(){
         data = $(this).attr('data-param');
@@ -27,6 +32,7 @@ $(document).ready(function () {
     });
     
 });
+
 function deleteRegistroPontos(rotaUrl, id_objeto) {
     if (confirm('Deseja confirmar a exclusão?')) {
         $.ajax({
@@ -56,3 +62,4 @@ function deleteRegistroPontos(rotaUrl, id_objeto) {
         })
     }
 }
+

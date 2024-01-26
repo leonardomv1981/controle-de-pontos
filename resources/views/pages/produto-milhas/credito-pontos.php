@@ -16,7 +16,7 @@
 </div>
 <div class="col-md-4">
     <label for="valor_operacao" class="form-label" >Valor gasto</label>
-    <input type="number" name="data[produtomilhas][valor_operacao]" class="form-control" id="valor_operacao" step=".01">
+    <input name="data[produtomilhas][valor_operacao]" class="form-control Inputmask"  id="valor_operacao">
 </div>
 <div class="col-md-4">
     <label for="data_operacao" class="form-label">Data da operação</label>
@@ -26,3 +26,7 @@
     <label for="observacao" class="form-label">observação</label>
     <input type="text" name="data[produtomilhas][observacao]" class="form-control" id="observacao">
 </div>
+
+<script> 
+    $('#valor_operacao').inputmask('R$ 99.999,99', { numericInput: true });
+</script>

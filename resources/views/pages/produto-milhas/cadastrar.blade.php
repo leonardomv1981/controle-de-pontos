@@ -10,6 +10,7 @@
     <div>
         <form class="row g-3" method="POST" action="{{ route('cadastrar.produtoMilha')}}">
             @csrf
+            
             <fieldset class="row mb-3">
                 <legend class="col-form-label col-sm-2 pt-0">Tipo de movimentação</legend>
                 <div class="col-sm-10">
