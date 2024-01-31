@@ -2,9 +2,6 @@
 
 $(document).ready(function () {
 
-    $('#valor_operacao').inputmask('R$ 99.999,99', { numericInput: true });
-    // $('#valor_operacao').mask();
-
     $(document).on('change', '.form-check-input', function(){
         data = $(this).attr('data-param');
         token = $('meta[name="csrf_token"]').attr('content');

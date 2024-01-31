@@ -28,5 +28,9 @@
 </div>
 
 <script> 
-    $('#valor_operacao').inputmask('R$ 99.999,99', { numericInput: true });
+    $('#valor_operacao').maskMoney({
+         prefix: "R$: ",
+         decimal: ",",
+         thousands: "."
+     });
 </script>
