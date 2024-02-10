@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             Produtomilhas::class,
             Programas::class,
+            Saldos::class,
         ]);
     }
 }

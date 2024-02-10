@@ -2,13 +2,13 @@
 <div class="col-md-4">
     <label for="nome_programa" class="form-label">Programa</label>
     <select  name="data[produtomilhas][nome_programa]" class="form-control" id="nome_programa" value="">
-                <option value="">SELECIONE</option>
-                <option name="data[nome_programa]" class="form-control" id="nome_programa" value="AA">AA</option>
-                <option name="data[nome_programa]" class="form-control" id="nome_programa"value="LATAM">LATAM</option>
-                <option name="data[nome_programa]" class="form-control" id="nome_programa" value="LIVELO">LIVELO</option>
-                <option name="data[nome_programa]" class="form-control" id="nome_programa" value="ESFERA">ESFERA</option>
-                <option  name="data[nome_programa]" class="form-control" id="nome_programa" value="SMILES">SMILES</option>
-            </select>
+        <option value="">SELECIONE</option>
+        <option name="data[nome_programa]" class="form-control" id="nome_programa" value="AA">AA</option>
+        <option name="data[nome_programa]" class="form-control" id="nome_programa"value="LATAM">LATAM</option>
+        <option name="data[nome_programa]" class="form-control" id="nome_programa" value="LIVELO">LIVELO</option>
+        <option name="data[nome_programa]" class="form-control" id="nome_programa" value="ESFERA">ESFERA</option>
+        <option  name="data[nome_programa]" class="form-control" id="nome_programa" value="SMILES">SMILES</option>
+    </select>
 </div>
 <div class="col-md-4">
     <label for="pontos_operacao" class="form-label">Pontuação a creditar</label>

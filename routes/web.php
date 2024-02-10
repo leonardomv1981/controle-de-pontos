@@ -36,6 +36,8 @@ Route::prefix('produtos-milhas')->group(function () {
 
 Route::prefix('programas')->group(function () {
     Route::get('/', [ProgramasController::class, 'index'])->name('programas.index');
+    Route::post('/cadastrarProgramas', [ProgramasController::class, 'cadastrarProgramas'])->name('cadastrar.programas');
+    Route::post('/action',  [ProgramasController::class, 'action'])->name('programas.action');
     // function () {
     //     $programas = Programas::all();
     //     return view('pages.programas.index', compact('programas'));
