@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ProdutosmilhasController;
 use App\Http\Controllers\ProgramasController;
+use App\Http\Controllers\SaldosController;
 use App\Models\Programas;
+use App\Models\Saldos as ModelsSaldos;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,11 +38,16 @@ Route::prefix('produtos-milhas')->group(function () {
 
 Route::prefix('programas')->group(function () {
     Route::get('/', [ProgramasController::class, 'index'])->name('programas.index');
-    Route::post('/cadastrarProgramas', [ProgramasController::class, 'cadastrarProgramas'])->name('cadastrar.programas');
+    Route::post('/cadastrarProgramas', [ProgramasController::class, 'cadastrarProgramas'])->name('programas.cadastrar');
     Route::post('/action',  [ProgramasController::class, 'action'])->name('programas.action');
     // function () {
     //     $programas = Programas::all();
     //     return view('pages.programas.index', compact('programas'));
     // });
+
+});
+
+Route::prefix('saldos')->group(function () {
+    Route::get('/', [SaldosController::class, 'index'])->name('saldos.index');
 
 });

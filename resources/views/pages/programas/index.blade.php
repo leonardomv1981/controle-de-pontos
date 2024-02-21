@@ -8,7 +8,7 @@
     
 
     <div>
-        <form class="row g-3" method="POST" action="{{ route('cadastrar.programas')}}">
+        <form class="row g-3" method="POST" action="{{ route('programas.cadastrar')}}">
             @csrf
             
             <fieldset class="row mb-3">

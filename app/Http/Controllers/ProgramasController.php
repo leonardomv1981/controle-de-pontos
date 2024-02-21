@@ -27,16 +27,27 @@ class ProgramasController extends Controller
 
     public function cadastrarProgramas(Request $request)
     {
+
         $data = $request->data;
-        // dd($data);
+
+        // inserção de usuário na fase beta
+        $data['saldos']['id_usuario'] = 1;
+        $data['programas']['id_usuario'] = 1;
+        
         $dataProgramas = $this->programas->create($data['programas']);
         $data['saldos']['id_programa'] = $dataProgramas->id;
-        $data['saldos']['id_usuario'] = 12;
         $data['saldos']['saldo_total'] = 0;
         $data['saldos']['valor_total'] = 0;
         $data['saldos']['cpm_total'] = 0;
         // dd($data['saldos']);
         Saldos::create($data['saldos']);
-        return redirect()->route('produto-milhas.index');
+        return redirect()->route('saldos.index');
+    }
+
+    public static function getProgramasDoUsuario(int $id_usuario)
+    {
+        $programas = Programas::where('id_usuario', $id_usuario)->where('situacao', 'ATIVO')->orderBy('nome')->get();
+        // $programas = self->where('id_usuario', $idUsuario)->get();
+        return $programas;
     }
 }

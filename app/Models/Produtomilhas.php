@@ -10,17 +10,14 @@ class Produtomilhas extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome_programa',
+        'id_programa',
+        'id_usuario',
         'operacao',
-        'usuario',
         'data_operacao',
         'pontos_operacao',
-        'saldo_anterior',
-        'saldo_atual',
         'valor_operacao',
         'valor_acumulado',
         'cpm_operacao',
-        'cpm_acumulado',
         'situacao',
         'observacao',
     ];
@@ -41,9 +38,9 @@ class Produtomilhas extends Model
         return $produtoMilhas;
     }
 
-    public function getUltimoSaldo(string $nome_programa)
-    {
-        $ultimoSaldo = $this->where('nome_programa', $nome_programa)->orderBy('id', 'desc')->first();
-        return $ultimoSaldo;
-    }
+    // public function getUltimoSaldo(string $nome_programa)
+    // {
+    //     $ultimoSaldo = $this->where('nome_programa', $nome_programa)->orderBy('id', 'desc')->first();
+    //     return $ultimoSaldo;
+    // }
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('saldos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('programa_id')->constrained('programas');
-            $table->string('usuario');
+            $table->foreignId('id_programa')->constrained('programas');
+            $table->foreignId('id_usuario')->constrained('users');
             $table->integer('saldo_total');
             $table->decimal('valor_total', 10,2);
             $table->decimal('cpm_total', 10,2);

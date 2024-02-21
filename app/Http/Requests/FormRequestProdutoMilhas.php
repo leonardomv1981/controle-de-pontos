@@ -17,20 +17,21 @@ class FormRequestProdutoMilhas extends FormRequest
     {
         $request = [];
         if ($this->method() == "POST") {
-            if ($this->request->all()['data']['produtomilhas'] != 'transferencia') {
+            if ($this->request->all()['data']['produtomilhas']['operacao'] != 'transferencia') {
+                
                 $request = [
-                    'data.produtomilhas.nome_programa' => 'required',
+                    'data.produtomilhas.id_programa' => 'required',
                     'data.produtomilhas.data_operacao' => 'required',
                     'data.produtomilhas.pontos_operacao' => 'required',
                     'data.produtomilhas.observacao' => 'required',
                 ];
             } else {
                 $request = [
-                    'data.produtomilhas.origem.nome_programa' => 'required',
+                    'data.produtomilhas.origem.id_programa' => 'required',
                     'data.produtomilhas.origem.data_operacao' => 'required',
                     'data.produtomilhas.origem.pontos_operacao' => 'required',
                     
-                    'data.produtomilhas.destino.nome_programa' => 'required',
+                    'data.produtomilhas.destino.id_programa' => 'required',
                     'data.produtomilhas.destino.pontos_operacao' => 'required',
                 ];
             }

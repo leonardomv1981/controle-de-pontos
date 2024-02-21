@@ -13,9 +13,9 @@
                 </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{{ route('produto-milhas.index') }}">
+                    <a class="nav-link d-flex align-items-center gap-2" href="{{ route('saldos.index') }}">
                         <svg class="bi"><use xlink:href="#graph-up"/></svg>
-                        Movimentações de pontos
+                        Saldos
                     </a>
                 </li>
                 <li class="nav-item">
