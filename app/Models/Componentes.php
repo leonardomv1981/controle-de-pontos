@@ -11,8 +11,7 @@ class Componentes extends Model
 
     public function formataMascaraMoeda($valor)
     {
-        $valorRetorno = str_replace(['R$', ':', ' '], '', $valor);
-        $valorRetorno = str_replace('.', ',', $valorRetorno);
+        $valorRetorno = str_replace(['R$', ':', ' ', '.'], '', $valor);
         $valorRetorno = str_replace(',', '.', $valorRetorno);
 
         return $valorRetorno;

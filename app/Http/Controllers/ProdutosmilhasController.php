@@ -33,18 +33,22 @@ class ProdutosmilhasController extends Controller
     {
         if ($request->method() == "POST") {
             $data = $request->data;
+            $querySaldo = new Saldos();
+            $idUsuario = 1;
 
             if ($data['produtomilhas']['operacao'] != 'transferencia') {
-                $idUsuario = 1;
-                $querySaldo = new Saldos();
                 $saldo = $querySaldo->getSaldoPorPrograma(['id_programa' => $data['produtomilhas']['id_programa'], 'id_usuario' => $idUsuario]);
-                $compomentes = new Componentes();
-                $data['produtomilhas']['valor_operacao'] = $compomentes->formataMascaraMoeda($data['produtomilhas']['valor_operacao']);
+                if(empty($data['produtomilhas']['valor_operacao'])) {
+                    $data['produtomilhas']['valor_operacao'] = 0;
+                }
             }
 
             switch ($data['produtomilhas']['operacao']) 
             {
                  case 'credito':
+                    $compomentes = new Componentes();
+                    $data['produtomilhas']['valor_operacao'] = $compomentes->formataMascaraMoeda($data['produtomilhas']['valor_operacao']);
+
                     $data['produtomilhas']['id_usuario'] = $idUsuario;
                     $data['produtomilhas']['cpm_operacao'] = $data['produtomilhas']['valor_operacao'] / (($data['produtomilhas']['pontos_operacao'] / 1000));
                     $data['produtomilhas']['situacao'] = 'ATIVO';
@@ -53,57 +57,69 @@ class ProdutosmilhasController extends Controller
                     $data['saldo']['valor_total'] = $saldo[0]->valor_total + $data['produtomilhas']['valor_operacao'];
                     $data['saldo']['cpm_total'] = $data['saldo']['valor_total'] / (($data['saldo']['saldo_total'] / 1000));
                     $data['saldo']['id'] = $saldo[0]->id;
-                    
-                    // dd(Saldos::update($data['saldo'], $saldo[0]->id));
-
-
                     break;
                 case 'debito':
-                    $data['valor_operacao'] = ($data['pontos_operacao'] / 1000) * $ultimoRegistro->cpm_acumulado;
-                    $data['saldo_atual'] = $ultimoRegistro->saldo_atual - $data['pontos_operacao'];
-                    $data['valor_acumulado'] = $ultimoRegistro->valor_acumulado - $data['valor_operacao'];
-                    $data['cpm_operacao'] = $data['valor_operacao'] / (($data['pontos_operacao'] / 1000));
-                    $data['saldo_atual'] = $data['saldo_anterior'] - $data['pontos_operacao'];
-                    $data['valor_acumulado'] = $ultimoRegistro->valor_acumulado - $data['valor_operacao'];
-                    $data['cpm_acumulado'] = $ultimoRegistro->cpm_acumulado;
+                    
+                    if ($saldo[0]->saldo_total < $data['produtomilhas']['pontos_operacao']) {
+                        return redirect()->route('produtoMilha.cadastrar')->with('error', 'Saldo insuficiente para realizar a transferência. Saldo atual disponível: ' . $saldoOrigem[0]->saldo_total);
+                    }
+
+                    $data['produtomilhas']['id_usuario'] = $idUsuario;
+                    $data['produtomilhas']['valor_operacao'] = $saldo[0]->cpm_total * ($data['produtomilhas']['pontos_operacao']/1000);
+                    $data['produtomilhas']['cpm_operacao'] = $data['produtomilhas']['valor_operacao'] / (($data['produtomilhas']['pontos_operacao'] / 1000));
+                    $data['produtomilhas']['situacao'] = 'ATIVO';
+                    
+                    $data['saldo']['saldo_total'] = $saldo[0]->saldo_total - $data['produtomilhas']['pontos_operacao'];
+                    $data['saldo']['valor_total'] = $saldo[0]->valor_total - $data['produtomilhas']['valor_operacao'];
+                    $data['saldo']['cpm_total'] = $data['saldo']['valor_total'] / (($data['saldo']['saldo_total'] / 1000));
+                    $data['saldo']['id'] = $saldo[0]->id;
                     break;
                 case 'transferencia':
-                    $idUsuario = 1;
-                    $saldoOrigem = SaldosController::getSaldoPorPrograma($data['origem']['id_programa'], $idUsuario);
-                    $saldoDestino = SaldosController::getSaldoPorPrograma($data['destino']['id_programa'], $idUsuario);
-                    // $ultimoRegistroDestino = $this->produtoMilhas->getUltimoSaldo($data['destino']['nome_programa']);
+                    $saldoOrigem = $querySaldo->getSaldoPorPrograma(['id_programa' => $data['produtomilhas']['origem']['id_programa'], 'id_usuario' => $idUsuario]);
+                    $saldoDestino = $querySaldo->getSaldoPorPrograma(['id_programa' => $data['produtomilhas']['destino']['id_programa'], 'id_usuario' => $idUsuario]);
+
+                    if ($saldoOrigem[0]->saldo_total < $data['produtomilhas']['origem']['pontos_operacao']) {
+                        // return Redirect::back()->withErros('Saldo insuficiente para realizar a transferência')->withInput();
+                        return redirect()->route('produtoMilha.cadastrar')
+                        ->with('error', 'Saldo insuficiente para realizar a transferência. Saldo atual disponível: ' . $saldoOrigem[0]->saldo_total);
+                    }
 
                     //tratamento dos dados do programa de origem da transferência - preparação para debitar os pontos
-                    $data['origem']['operacao'] = 'debito';
-                    $data['origem']['saldo_anterior'] = $ultimoRegistroOrigem->saldo_atual;
-                    $data['origem']['valor_operacao'] = ($data['origem']['pontos_operacao'] / 1000) * $ultimoRegistroOrigem->cpm_acumulado;
-                    $data['origem']['saldo_atual'] = $ultimoRegistroOrigem->saldo_atual - $data['origem']['pontos_operacao'];
-                    $data['origem']['valor_acumulado'] = $ultimoRegistroOrigem->valor_acumulado - $data['origem']['valor_operacao'];
-                    $data['origem']['cpm_operacao'] = $data['origem']['valor_operacao'] / (($data['origem']['pontos_operacao'] / 1000));
-                    $data['origem']['saldo_atual'] = $data['origem']['saldo_anterior'] - $data['origem']['pontos_operacao'];
-                    $data['origem']['valor_acumulado'] = $ultimoRegistroOrigem->valor_acumulado - $data['origem']['valor_operacao'];
-                    $data['origem']['cpm_acumulado'] = $ultimoRegistroOrigem->cpm_acumulado;
-                    $data['origem']['usuario'] = 12;
+                    $data['produtomilhas']['origem']['id_usuario'] = $idUsuario;
+                    $data['produtomilhas']['origem']['operacao'] = 'debito';
+                    $data['produtomilhas']['origem']['valor_operacao'] = $data['produtomilhas']['origem']['pontos_operacao'] / 1000 * $saldoOrigem[0]->cpm_total;
+                    $data['produtomilhas']['origem']['cpm_operacao'] = $data['produtomilhas']['origem']['valor_operacao'] / (($data['produtomilhas']['origem']['pontos_operacao'] / 1000));
+                    $data['produtomilhas']['origem']['situacao'] = 'ATIVO';
+                    $data['produtomilhas']['origem']['observacao'] = 'Transferência para o programa xxx';
+                    
 
                     //tratamento dos dados do programa de destino da transferência - preparação para creditar os pontos
-                    $data['destino']['operacao'] = 'credito';
-                    $data['destino']['saldo_anterior'] = $ultimoRegistroDestino->saldo_atual;
-                    $data['destino']['valor_operacao'] = $data['origem']['valor_operacao'];
-                    $data['destino']['saldo_atual'] = $ultimoRegistroDestino->saldo_atual + $data['destino']['pontos_operacao'];
-                    $data['destino']['valor_acumulado'] = $ultimoRegistroDestino->valor_acumulado + $data['origem']['cpm_operacao'];
-                    $data['destino']['cpm_operacao'] = $data['origem']['cpm_operacao'];
-                    $data['destino']['saldo_atual'] = $data['destino']['saldo_anterior'] + $data['destino']['pontos_operacao'];
-                    $data['destino']['cpm_acumulado'] = $data['destino']['valor_acumulado'] / (($data['destino']['saldo_atual'] / 1000));
-                    $data['destino']['data_operacao'] = $data['origem']['data_operacao'];
-                    $data['destino']['usuario'] = 12;
+                    $data['produtomilhas']['destino']['id_usuario'] = $idUsuario;
+                    $data['produtomilhas']['destino']['operacao'] = 'credito';
+                    $data['produtomilhas']['destino']['data_operacao'] = $data['produtomilhas']['origem']['data_operacao'];
+                    $data['produtomilhas']['destino']['valor_operacao'] = $data['produtomilhas']['origem']['valor_operacao'];
+                    $data['produtomilhas']['destino']['cpm_operacao'] = $data['produtomilhas']['origem']['cpm_operacao'];
+                    $data['produtomilhas']['destino']['situacao'] = 'ATIVO';
+                    $data['produtomilhas']['destino']['observacao'] = 'Transferência recebida do programa xxx';
 
+                    $data['saldo']['origem']['saldo_total'] = $saldoOrigem[0]->saldo_total - $data['produtomilhas']['origem']['pontos_operacao'];
+                    $data['saldo']['origem']['valor_total'] = $saldoOrigem[0]->valor_total - $data['produtomilhas']['origem']['valor_operacao'];
+                    $data['saldo']['origem']['cpm_total'] = $data['saldo']['origem']['valor_total'] / (($data['saldo']['origem']['saldo_total'] / 1000));
+                    $data['saldo']['origem']['id'] = $saldoOrigem[0]->id;
 
+                    $data['saldo']['destino']['saldo_total'] = $saldoDestino[0]->saldo_total + $data['produtomilhas']['destino']['pontos_operacao'];
+                    $data['saldo']['destino']['valor_total'] = $saldoDestino[0]->valor_total + $data['produtomilhas']['destino']['valor_operacao'];
+                    $data['saldo']['destino']['cpm_total'] = $data['saldo']['destino']['valor_total'] / (($data['saldo']['destino']['saldo_total'] / 1000));
+                    $data['saldo']['destino']['id'] = $saldoDestino[0]->id;
 
                     // Produtomilhas::create($data['origem']);
-                    $gravarOrigem = Produtomilhas::create($data['origem']);
-                    $gravarDestino = Produtomilhas::create($data['destino']);
+                    Produtomilhas::create($data['produtomilhas']['origem']);
+                    Saldos::where('id', $data['saldo']['origem']['id'])->update($data['saldo']['origem']);
 
-                    return redirect()->route('produto-milhas.index');
+                    Produtomilhas::create($data['produtomilhas']['destino']);
+                    Saldos::where('id', $data['saldo']['destino']['id'])->update($data['saldo']['destino']);
+
+                    return redirect()->route('saldos.index');
                     
                     break;
                 default:
@@ -113,11 +129,12 @@ class ProdutosmilhasController extends Controller
 
             Produtomilhas::create($data['produtomilhas']);
             Saldos::where('id', $data['saldo']['id'])->update($data['saldo']);
+
+            return redirect()->route('saldos.index');
         };
 
-        return redirect()->route('saldos.index');
-        // $programas = ProgramasController::getProgramasDoUsuario(1);
-        // return view('pages.produto-milhas.cadastrar', compact('programas'));
+        $programas = ProgramasController::getProgramasDoUsuario(1);
+        return view('pages.produto-milhas.cadastrar', compact('programas'));
     }
 
     public function action (Request $request)

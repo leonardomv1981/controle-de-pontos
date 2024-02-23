@@ -14,7 +14,7 @@
             <fieldset class="row mb-3">
                 <div class="col-sm-5">
                     <div class="form-check">
-                        <label for="nomePrograma" class="form-label">Pontuação a creditar</label>
+                        <label for="nomePrograma" class="form-label">Nome do programa</label>
                         <input type="text" name="data[programas][nome]" class="form-control" placeholder="Nome do programa" required id="nomePrograma">
                     </div>
                     <div class="form-check">

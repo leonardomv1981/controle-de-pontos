@@ -32,11 +32,18 @@
                         </label>
                     </div>
                 </div>
-                @if($errors->any())
+                
+                
+                @if(session('error') || $errors->any())
                     <div class="alert alert-warning">
                         <span class="">
                             <strong> Houve um erro </strong>
+                            @if(session('error'))
+                                {{ session('error') }}
+                            @endif
+                            @if($errors->any())
                                 {!! implode('', $errors->all('<div>:message</div>')) !!}
+                            @endif
                         </span>
                     </div>
                 @endif

@@ -24,10 +24,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($saldos as $saldo)
+                @foreach ($findSaldos as $saldo)
                     <tr>
                         <td>{{ $saldo->id }}</td>
-                        <td>{{ $programas[$saldo->id_programa -1 ]->nome }}</td>
+                        <td>{{ $saldo->programa->nome }}</td>
                         <td>{{ $saldo->saldo_total }}</td>
                         <td>R$: {{ str_replace('.', ',', $saldo->valor_total) }}</td>
                         <td>R$: {{ str_replace('.', ',', $saldo->cpm_total) }}</td>
