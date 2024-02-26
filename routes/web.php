@@ -31,6 +31,8 @@ Route::prefix('produtos-milhas')->group(function () {
     Route::get('/', [ProdutosmilhasController::class, 'index'])->name('produto-milhas.index');
     Route::get('/cadastrarProdutoMilha', [ProdutosmilhasController::class, 'cadastrarProdutoMilha'])->name('produtoMilha.cadastrar');
     Route::post('/cadastrarProdutoMilha', [ProdutosmilhasController::class, 'cadastrarProdutoMilha'])->name('cadastrar.produtoMilha');
+    
+    Route::get('/extrato', [ProdutosmilhasController::class, 'listarPorPrograma'])->name('produtoMilha.extrato');
    
     Route::delete('/delete', [ProdutosmilhasController::class, 'delete'])->name('produto-milhas.delete');
     Route::post('/action',  [ProdutosmilhasController::class, 'action'])->name('produtoMilha.action');

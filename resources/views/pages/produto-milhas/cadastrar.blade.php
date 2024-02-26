@@ -2,6 +2,14 @@
 
 @section('content')
     <meta name="csrf_token" content="{{ csrf_token() }}">
+    <div class="d-flex justify-content-end grid gap-3">
+        <div class="p-2 g-col-6">
+            <a type="button" href="{{ route('saldos.index') }}" class="btn btn-primary btn-sm">Saldo</a>
+        </div>
+        <div class="p-2 g-col-6">
+            <a type="button" href="{{ route('programas.index') }}" class="btn btn-primary btn-sm">Incluir programa</a>
+        </div>
+    </div>
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Adicionar movimentação</h1>
     </div>

@@ -19,16 +19,30 @@ class ProdutosmilhasController extends Controller
         $this->produtoMilhas = $produtoMilhas;
     }
 
-    // public function index (Request $request) {
-    //     $findProduto = $this->produtoMilhas->getProdutosPesquisarIndex(search: $request->pesquisar ?? '');
-    //     return view('pages.produto-milhas.paginacao', compact('findProduto'));
-    // }
-
     public function delete (Request $request)
     {
+
         $id = $request->id;
+        $buscarRegistro = $this->produtoMilhas->where('id', $id)->where('situacao', 'ATIVO')->get()[0];
+
+        if ($buscarRegistro->operacao == 'credito') {
+            $saldo = Saldos::where('id_programa', $buscarRegistro->id_programa)->get();
+            $saldo[0]->saldo_total = $saldo[0]->saldo_total - $buscarRegistro->pontos_operacao;
+            $saldo[0]->valor_total = $saldo[0]->valor_total - $buscarRegistro->valor_operacao;
+            $saldo[0]->cpm_total = $saldo[0]->valor_total / (($saldo[0]->saldo_total / 1000));
+            $saldo[0]->save();
+        } elseif ($buscarRegistro->operacao == 'debito') {
+            $saldo = Saldos::where('id_programa', $buscarRegistro->id_programa)->get();
+            $saldo[0]->saldo_total = $saldo[0]->saldo_total + $buscarRegistro->pontos_operacao;
+            $saldo[0]->valor_total = $saldo[0]->valor_total + $buscarRegistro->valor_operacao;
+            $saldo[0]->cpm_total = $saldo[0]->valor_total / (($saldo[0]->saldo_total / 1000));
+            dd($saldo[0]);
+            $saldo[0]->save();
+        }
+        
         $buscarRegistro = Produtomilhas::find($id)->update(['situacao' => "EXCLUIDO"]);
-        return response()->utf8_decode(['success'=> true]);
+
+        return (['success'=> true]);
     }
 
     public function cadastrarProdutoMilha (FormRequestProdutoMilhas $request) 
@@ -47,7 +61,7 @@ class ProdutosmilhasController extends Controller
 
             switch ($data['produtomilhas']['operacao']) 
             {
-        
+                
                  case 'credito':
                     $compomentes = new Componentes();
                     $data['produtomilhas']['valor_operacao'] = $compomentes->formataMascaraMoeda($data['produtomilhas']['valor_operacao']);
@@ -123,6 +137,8 @@ class ProdutosmilhasController extends Controller
                     Produtomilhas::create($data['produtomilhas']['destino']);
                     Saldos::where('id', $data['saldo']['destino']['id'])->update($data['saldo']['destino']);
 
+                    Toastr::success('Operação realizada com sucesso');
+
                     return redirect()->route('saldos.index');
                     
                     break;
@@ -167,9 +183,17 @@ class ProdutosmilhasController extends Controller
 
     }
 
-    // public function listarPorPrograma ($data) {
-    //     dd($data);
-    //     $findProduto = Produtomilhas::where('nome_programa', '=', 'AA')->get();
-    //     dd($findProduto);
-    // }
+    public function listarPorPrograma (Request $request) 
+    {
+        $programa = $request->programa;
+
+        if ($programa == '') {
+            Toastr::warning('Houve um erro ao obter o extrato. Tente novamente.');
+            return redirect()->route('saldos.index');
+        }
+
+        $extrato = $this->produtoMilhas->getExtratoPorPrograma($programa);
+
+        return view('pages.produto-milhas.extrato', compact('extrato'));
+    }
 }

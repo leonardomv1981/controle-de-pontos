@@ -26,7 +26,7 @@
                     <div class="alert alert-warning">
                         <span class="">
                             <strong> Houve um erro </strong>
-                                {!! implode('', $errors->all('<div>:message</div>')) !!}
+                            {!! implode('', $errors->all('<div>:message</div>')) !!}
                         </span>
                     </div>
                 @endif

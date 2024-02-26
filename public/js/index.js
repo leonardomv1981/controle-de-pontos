@@ -48,12 +48,11 @@ function deleteRegistroPontos(rotaUrl, id_objeto) {
             },
         }).done(function (data) {
             if (data.success == true) {
-                window.location.reload();    
+                window.location.reload(); 
             } else {
                 alert('houve um erro')
             };
         }).fail(function(data){
-            console.log(data);
             $.unblockUI();
             alert('não foi possível buscar os dados');
         })

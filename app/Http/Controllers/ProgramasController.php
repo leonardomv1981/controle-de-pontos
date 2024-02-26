@@ -47,7 +47,6 @@ class ProgramasController extends Controller
     public static function getProgramasDoUsuario(int $id_usuario)
     {
         $programas = Programas::where('id_usuario', $id_usuario)->where('situacao', 'ATIVO')->orderBy('nome')->get();
-        // $programas = self->where('id_usuario', $idUsuario)->get();
         return $programas;
     }
 }

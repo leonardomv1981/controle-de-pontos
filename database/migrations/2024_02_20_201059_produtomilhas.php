@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('pontos_operacao');
             $table->decimal('valor_operacao', 10,2);
             $table->decimal('cpm_operacao', 10,2);
+            $table->decimal('cpm_acumulado', 10,2);
             $table->enum('situacao', ['ATIVO', 'EXCLUIDO']);
             $table->string('observacao', 255)->nullable;
             $table->timestamps();
