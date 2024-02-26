@@ -7,6 +7,8 @@ use App\Models\Componentes;
 use App\Models\Produtomilhas;
 use App\Models\Programas;
 use App\Models\Saldos;
+use Brian2694\Toastr\Facades\Toastr;
+use Brian2694\Toastr\Toastr as ToastrToastr;
 use Illuminate\Http\Request;
 
 class ProdutosmilhasController extends Controller
@@ -45,6 +47,7 @@ class ProdutosmilhasController extends Controller
 
             switch ($data['produtomilhas']['operacao']) 
             {
+        
                  case 'credito':
                     $compomentes = new Componentes();
                     $data['produtomilhas']['valor_operacao'] = $compomentes->formataMascaraMoeda($data['produtomilhas']['valor_operacao']);
@@ -90,8 +93,7 @@ class ProdutosmilhasController extends Controller
                     $data['produtomilhas']['origem']['valor_operacao'] = $data['produtomilhas']['origem']['pontos_operacao'] / 1000 * $saldoOrigem[0]->cpm_total;
                     $data['produtomilhas']['origem']['cpm_operacao'] = $data['produtomilhas']['origem']['valor_operacao'] / (($data['produtomilhas']['origem']['pontos_operacao'] / 1000));
                     $data['produtomilhas']['origem']['situacao'] = 'ATIVO';
-                    $data['produtomilhas']['origem']['observacao'] = 'Transferência para o programa xxx';
-                    
+                    $data['produtomilhas']['origem']['observacao'] = 'Transferência para o programa ' . $saldoDestino[0]->programa->nome;
 
                     //tratamento dos dados do programa de destino da transferência - preparação para creditar os pontos
                     $data['produtomilhas']['destino']['id_usuario'] = $idUsuario;
@@ -100,7 +102,9 @@ class ProdutosmilhasController extends Controller
                     $data['produtomilhas']['destino']['valor_operacao'] = $data['produtomilhas']['origem']['valor_operacao'];
                     $data['produtomilhas']['destino']['cpm_operacao'] = $data['produtomilhas']['origem']['cpm_operacao'];
                     $data['produtomilhas']['destino']['situacao'] = 'ATIVO';
-                    $data['produtomilhas']['destino']['observacao'] = 'Transferência recebida do programa xxx';
+                    $data['produtomilhas']['destino']['observacao'] = 'Transferência recebida do programa ' . $saldoOrigem[0]->programa->nome;
+
+                
 
                     $data['saldo']['origem']['saldo_total'] = $saldoOrigem[0]->saldo_total - $data['produtomilhas']['origem']['pontos_operacao'];
                     $data['saldo']['origem']['valor_total'] = $saldoOrigem[0]->valor_total - $data['produtomilhas']['origem']['valor_operacao'];
@@ -129,6 +133,8 @@ class ProdutosmilhasController extends Controller
 
             Produtomilhas::create($data['produtomilhas']);
             Saldos::where('id', $data['saldo']['id'])->update($data['saldo']);
+
+            Toastr::success('Operação realizada com sucesso');
 
             return redirect()->route('saldos.index');
         };
