@@ -3,14 +3,25 @@
 @section('content')
     
     <meta name="csrf_token" content="{{ csrf_token() }}">
-    <div class="d-flex justify-content-end grid gap-3">
-        <div class="p-2 g-col-6">
-            <a type="button" href="{{ route('programas.index') }}" class="btn btn-primary btn-sm">Incluir programa</a>
+    <div class="row border-bottom">
+        <div class="col-7">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+                <h1 class="h2">Saldos</h1>
+            </div>
         </div>
-        <div class="p-2 g-col-6">
-            <a type="button" href="{{ route('produtoMilha.cadastrar') }}" class="btn btn-primary btn-sm">Incluir movimento</a>
+        <div class="col-5">
+            <div class="d-flex justify-content-end grid gap-3">
+                <div class="p-2 g-col-6">
+                    <a type="button" href="{{ route('programas.index') }}" class="btn btn-primary btn-sm">Incluir programa</a>
+                </div>
+                <div class="p-2 g-col-6">
+                    <a type="button" href="{{ route('produtoMilha.cadastrar') }}" class="btn btn-primary btn-sm">Incluir movimento</a>
+                </div>
+            </div>
         </div>
     </div>
+
+
     <div class="table-responsive">
         <table class="table table-striped table-sm">
             <thead>

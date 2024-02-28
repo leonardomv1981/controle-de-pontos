@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    $programas = Programas::all();
+    dd($programas);
+    return view('index', compact('programas'));
 });
 
 // Route::get('/programas', function () {
@@ -42,10 +44,6 @@ Route::prefix('programas')->group(function () {
     Route::get('/', [ProgramasController::class, 'index'])->name('programas.index');
     Route::post('/cadastrarProgramas', [ProgramasController::class, 'cadastrarProgramas'])->name('programas.cadastrar');
     Route::post('/action',  [ProgramasController::class, 'action'])->name('programas.action');
-    // function () {
-    //     $programas = Programas::all();
-    //     return view('pages.programas.index', compact('programas'));
-    // });
 
 });
 
