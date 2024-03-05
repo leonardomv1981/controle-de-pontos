@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             Produtomilhas::class,
             Programas::class,
             Saldos::class,
+            UsersSeeder::class,
         ]);
     }
 }

@@ -39,7 +39,8 @@
                     <tr>
                         <td>{{ $saldo->programa->nome }}</td>
                         <td>{{ number_format($saldo->saldo_total, 0, '', '.') }}</td>
-                        <td>R$: {{ str_replace('.', ',', $saldo->valor_total) }}</td>
+                        <td>R$: {{ number_format($saldo->valor_total, 2, ',', '.') }}
+                        </td>
                         <td>R$: {{ str_replace('.', ',', $saldo->cpm_total) }}</td>
                         <td>
                             <a href="{{ route('produtoMilha.extrato') }}?programa={{ $saldo->programa->id }}" class="btn btn-outline-primary btn-sm">

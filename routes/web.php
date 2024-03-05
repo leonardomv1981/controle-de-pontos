@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProdutosmilhasController;
 use App\Http\Controllers\ProgramasController;
 use App\Http\Controllers\SaldosController;
+use App\Http\Controllers\UsersController;
 use App\Models\Programas;
 use App\Models\Saldos as ModelsSaldos;
 use Illuminate\Support\Facades\Route;
@@ -19,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $programas = Programas::all();
-    dd($programas);
-    return view('index', compact('programas'));
+    return view('index');
 });
 
 // Route::get('/programas', function () {
@@ -49,5 +48,10 @@ Route::prefix('programas')->group(function () {
 
 Route::prefix('saldos')->group(function () {
     Route::get('/', [SaldosController::class, 'index'])->name('saldos.index');
+
+});
+
+Route::prefix('usuario')->group(function () {
+    Route::get('/', [UsersController::class, 'index'])->name('usuario.index');
 
 });
