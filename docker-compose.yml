@@ -15,6 +15,7 @@ services:
     nginx:
         container_name: servidor-nginx-milhas
         image: nginx:alpine
+        platform: linux/x86_64
         restart: unless-stopped
         ports:
             - "8100:80"
@@ -26,6 +27,7 @@ services:
      # db mysql ${DB_DATABASE} //Busca do arquivo .env
     mysql:
         container_name: banco-mysql-milhas
+        platform: linux/x86_64
         image: mysql:5.7.22
         restart: unless-stopped
         environment:
@@ -42,6 +44,7 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
+        platform: linux/x86_64
         container_name: phpmyadmin-milhas
         links:
             - mysql

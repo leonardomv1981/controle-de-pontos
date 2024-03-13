@@ -1,0 +1,68 @@
+version: "3.7"
+
+services:
+    sistema_controle_milhas:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - sistema-controle-milhas
+    # nginx
+    nginx:
+        container_name: servidor-nginx-milhas
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "8100:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d/
+        networks:
+            - sistema-controle-milhas
+     # db mysql ${DB_DATABASE} //Busca do arquivo .env
+    mysql:
+        container_name: banco-mysql-milhas
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - "8101:3306"
+        networks:
+            - sistema-controle-milhas
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin-milhas
+        links:
+            - mysql
+        restart: always
+        environment:
+            - PMA_ARBITRARY=1
+        ports:
+            - 8102:80
+        networks:
+            - sistema-controle-milhas
+
+networks:
+    sistema-controle-milhas:
+        driver: bridge
+
+#Doc. de utilizacao
+# para acessar phpmyadmin no navegador: http://localhost:8102/ -  e a porta
+# para acessar nginx(servidor) no navegador: http://localhost:8100/ - e a porta
+
+#PHPMYADMIN info no file
+# servidor: mysql
+# user: root
+# pass: root
+
