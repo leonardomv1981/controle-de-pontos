@@ -17,7 +17,7 @@ class Componentes extends Model
         return $valorRetorno;
     }
 
-    public function formataBancoMoeda($valor)
+    public static function formataBancoMoeda($valor)
     {
         $valorRetorno = str_replace('.', ',', $valor);
 
